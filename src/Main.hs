@@ -1,14 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE RecordWildCards #-}
 
-module Main where
+module Main (main) where
 
-import Data.Bool (Bool(True), otherwise)
+import Data.Bool (Bool(True, False))
 import Data.Function ((.), ($))
-import System.Environment (getArgs)
 import System.IO (IO)
 import System.IO.Unsafe (unsafePerformIO)
-import Text.Read (read)
 
 import Blaze.ByteString.Builder.Char.Utf8 (fromString)
 import Data.Default (def)
@@ -24,15 +23,16 @@ import Network.Wai.Middleware.RequestLogger
     , outputFormat
     )
 
+import Main.Options (Opts(..), getOpts)
+
 main :: IO ()
 main = do
-    [port] <- getArgs
-    run (read port) . logger . gzip def $ app
+    Opts{..} <- getOpts
+    run port . logger dev . gzip def $ app
 
-logger :: Middleware
-logger
-    | True = logStdoutDev
-    | otherwise = unsafePerformIO $ mkRequestLogger def{ outputFormat = Apache FromFallback }
+logger :: Bool -> Middleware
+logger True = logStdoutDev
+logger False = unsafePerformIO $ mkRequestLogger def{ outputFormat = Apache FromFallback }
 
 app :: Request -> (Response -> IO b) -> IO b
 app req respond = case (requestMethod req, pathInfo req) of
