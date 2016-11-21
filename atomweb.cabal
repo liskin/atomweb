@@ -19,16 +19,23 @@ executable atomweb
   hs-source-dirs:      src
   main-is:             Main.hs
   other-modules:
+    Main.Feed
+    Main.Feed.Example
     Main.Options
   build-depends:
       base
     , blaze-builder
     , data-default
+    , feed
     , http-types
     , optparse-applicative
+    , tagsoup
     , text
+    , time
     , wai
     , wai-extra
     , warp
+    , wreq
+    , xml
   default-language:    Haskell2010
   ghc-options:         -Wall -threaded -rtsopts -with-rtsopts=-N
