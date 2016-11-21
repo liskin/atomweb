@@ -21,6 +21,7 @@ executable atomweb
   other-modules:
     Main.Feed
     Main.Feed.Example
+    Main.Feed.KCBrno
     Main.Options
   build-depends:
       base
@@ -28,6 +29,7 @@ executable atomweb
     , data-default
     , feed
     , http-types
+    , lens
     , optparse-applicative
     , tagsoup
     , text

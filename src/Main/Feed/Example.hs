@@ -20,4 +20,3 @@ exampleFeed = do
     pure $ mkAtomFeed "nomi.cz/example" "example" now
         [ mkAtomEntry "http://example.com/" "example.com" now (mkAtomText "xxx")
         ]
-

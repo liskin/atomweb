@@ -2,8 +2,10 @@
 
 module Main.Feed
     ( Atom.Date
+    , Atom.Entry
     , Feed
     , getCurrentAtomDate
+    , mkAtomDate
     , mkAtomEntry
     , mkAtomFeed
     , mkAtomHtml
@@ -16,7 +18,7 @@ import Data.Maybe (Maybe(Just))
 import Data.String (String)
 import System.IO (IO)
 
-import Data.Time.Clock (getCurrentTime)
+import Data.Time.Clock (UTCTime, getCurrentTime)
 import qualified Text.Atom.Feed as Atom
     ( Date
     , Entry(entryContent, entryLinks)
@@ -32,7 +34,7 @@ import Text.Feed.Types (Feed, FeedKind(AtomKind))
 import Text.Feed.Util (toFeedDateStringUTC)
 
 getCurrentAtomDate :: IO Atom.Date
-getCurrentAtomDate = toFeedDateStringUTC AtomKind <$> getCurrentTime
+getCurrentAtomDate = mkAtomDate <$> getCurrentTime
 
 mkAtomFeed :: String -> String -> Atom.Date -> [Atom.Entry] -> Feed
 mkAtomFeed id title date entries =
@@ -54,3 +56,6 @@ mkAtomText = Atom.TextContent
 
 mkAtomHtml :: String -> Atom.EntryContent
 mkAtomHtml = Atom.HTMLContent
+
+mkAtomDate :: UTCTime -> Atom.Date
+mkAtomDate = toFeedDateStringUTC AtomKind

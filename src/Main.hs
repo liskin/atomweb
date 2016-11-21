@@ -31,6 +31,7 @@ import Text.Feed.Types (Feed, FeedKind(AtomKind))
 import Text.XML.Light.Output (showTopElement)
 
 import Main.Feed.Example (exampleFeed)
+import Main.Feed.KCBrno (kcBrnoDiskuzeFeed)
 import Main.Options (Opts(..), getOpts)
 
 main :: IO ()
@@ -45,6 +46,7 @@ logger False = unsafePerformIO $ mkRequestLogger def{ outputFormat = Apache From
 app :: Request -> (Response -> IO b) -> IO b
 app req respond = case (requestMethod req, pathInfo req) of
     ("GET", ["example.atom"]) -> exampleFeed >>= respond . responseFeed
+    ("GET", ["kcbrno_diskuze.atom"]) -> kcBrnoDiskuzeFeed >>= respond . responseFeed
     ("GET", _) -> respond $ responseNotFound
     (_, _) -> respond $ responseNotImplemented
 
