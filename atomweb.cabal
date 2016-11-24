@@ -31,9 +31,14 @@ executable atomweb
     , http-types
     , lens
     , optparse-applicative
+    , persistent
+    , persistent-template
+    , persistent-sqlite
+    , SHA
     , tagsoup
     , text
     , time
+    , transformers
     , wai
     , wai-extra
     , warp

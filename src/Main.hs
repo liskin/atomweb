@@ -31,7 +31,7 @@ import Text.Feed.Types (Feed, FeedKind(AtomKind))
 import Text.XML.Light.Output (showTopElement)
 
 import Main.Feed.Example (exampleFeed)
-import Main.Feed.KCBrno (kcBrnoDiskuzeFeed)
+import Main.Feed.KCBrno (kcBrnoDiskuzeFeed, kcBrnoZpravyFeed)
 import Main.Options (Opts(..), getOpts)
 
 main :: IO ()
@@ -47,6 +47,7 @@ app :: Request -> (Response -> IO b) -> IO b
 app req respond = case (requestMethod req, pathInfo req) of
     ("GET", ["example.atom"]) -> exampleFeed >>= respond . responseFeed
     ("GET", ["kcbrno_diskuze.atom"]) -> kcBrnoDiskuzeFeed >>= respond . responseFeed
+    ("GET", ["kcbrno_zpravy.atom"]) -> kcBrnoZpravyFeed >>= respond . responseFeed
     ("GET", _) -> respond $ responseNotFound
     (_, _) -> respond $ responseNotImplemented
 
