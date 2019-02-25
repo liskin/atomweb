@@ -1,4 +1,6 @@
 resolver: lts-9.2
 flags: {}
 packages: ['.']
-extra-deps: []
+extra-deps:
+    - api-builder-0.15.0.0
+    - reddit-0.2.3.0

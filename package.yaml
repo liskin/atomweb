@@ -18,6 +18,7 @@ executable:
         - SHA
         - base
         - blaze-builder
+        - bytestring
         - data-default
         - feed
         - http-types
@@ -26,6 +27,7 @@ executable:
         - persistent
         - persistent-sqlite
         - persistent-template
+        - reddit
         - tagsoup
         - text
         - time
