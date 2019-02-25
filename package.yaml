@@ -1,0 +1,37 @@
+name: atomweb
+version: '0.1.0.0'
+synopsis: Various Atom feeds
+author: Tomáš Janoušek <tomi@nomi.cz>
+copyright: (c) 2016 Tomáš Janoušek
+license: BSD3
+github: liskin/atomweb
+
+executable:
+    source-dirs: src
+    main: Main.hs
+    ghc-options:
+        - -Wall
+        - -threaded
+        - -rtsopts
+        - -with-rtsopts=-N
+    dependencies:
+        - SHA
+        - base
+        - blaze-builder
+        - data-default
+        - feed
+        - http-types
+        - lens
+        - optparse-applicative
+        - persistent
+        - persistent-sqlite
+        - persistent-template
+        - tagsoup
+        - text
+        - time
+        - transformers
+        - wai
+        - wai-extra
+        - warp
+        - wreq
+        - xml
