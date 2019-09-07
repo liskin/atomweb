@@ -1,4 +1,4 @@
-resolver: lts-6.20
+resolver: lts-12.26
 flags: {}
 packages: ['.']
 extra-deps: []

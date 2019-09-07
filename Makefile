@@ -1,10 +1,8 @@
-LTS=9
-
 all:
-	stack --stack-yaml stack-lts-$(LTS).yaml build --copy-bins --local-bin-path "$(shell pwd)/bin"
+	stack build --copy-bins --local-bin-path "$(shell pwd)/bin"
 
 ghci:
-	stack --stack-yaml stack-lts-$(LTS).yaml ghci
+	stack ghci
 
 ghcid:
-	ghcid -c "make ghci"
+	ghcid --restart package.yaml -c "make ghci"

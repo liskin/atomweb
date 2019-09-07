@@ -1,25 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE NoImplicitPrelude #-}
 {-# LANGUAGE RecordWildCards #-}
 
 module Main (main) where
 
-import Prelude (error)
-
-import Control.Monad ((>>=), join)
-import Data.Bool (Bool(True, False))
-import Data.Function ((.), ($))
-import Data.Functor (fmap)
-import Data.List (lookup)
-import Data.Maybe (Maybe)
-import System.IO (IO)
+import Control.Monad (join)
 import System.IO.Unsafe (unsafePerformIO)
-import Text.Read (read)
 
-import Blaze.ByteString.Builder.Char.Utf8 (fromString)
 import Data.Default (def)
-import qualified Data.Text as T (Text, unpack)
-import qualified Data.Text.Encoding as T (decodeUtf8)
+import Data.Text (Text)
 import Network.HTTP.Types (status200, status404, status501)
 import Network.Wai
     ( Middleware
@@ -39,9 +27,13 @@ import Network.Wai.Middleware.RequestLogger
     , outputFormat
     )
 import Text.Feed.Constructor (getFeedKind)
-import Text.Feed.Export (xmlFeed)
+import Text.Feed.Export (textFeed)
 import Text.Feed.Types (Feed, FeedKind(AtomKind))
-import Text.XML.Light.Output (showTopElement)
+
+import qualified Blaze.ByteString.Builder as Builder
+import qualified Data.Text as T
+import qualified Data.Text.Encoding as T
+import qualified Data.Text.Lazy.Encoding as TL
 
 import Main.Feed.Example (exampleFeed)
 import Main.Feed.KCBrno (kcBrnoDiskuzeFeed, kcBrnoZpravyFeed)
@@ -71,25 +63,28 @@ app req respond = case (requestMethod req, pathInfo req) of
     ("GET", _) -> respond $ responseNotFound
     (_, _) -> respond $ responseNotImplemented
 
-queryString' :: Request -> [(T.Text, Maybe T.Text)]
+queryString' :: Request -> [(Text, Maybe Text)]
 queryString' = fmap toText . queryString
     where
         toText (a, b) = (T.decodeUtf8 a, fmap T.decodeUtf8 b)
 
 responseFeed :: Feed -> Response
-responseFeed feed = responseBuilder status200 headers $ fromString xml
+responseFeed feed = responseBuilder status200 headers response
   where
-    xml = showTopElement $ xmlFeed feed
+    response = Builder.fromLazyByteString $ TL.encodeUtf8 xmlText
+    Just xmlText = textFeed feed
     headers = case getFeedKind feed of
         AtomKind -> [("Content-Type", "application/atom+xml")]
         _ -> error "unknown feed kind"
 
 responseNotFound :: Response
-responseNotFound = responseBuilder status404 headers $ fromString "not found"
+responseNotFound = responseBuilder status404 headers response
     where
+        response = Builder.fromByteString "not found"
         headers = [("Content-Type", "text/plain")]
 
 responseNotImplemented :: Response
-responseNotImplemented = responseBuilder status501 headers $ fromString "not implemented"
+responseNotImplemented = responseBuilder status501 headers response
     where
+        response = Builder.fromByteString "not implemented"
         headers = [("Content-Type", "text/plain")]

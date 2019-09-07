@@ -1,2 +1,7 @@
-.stack-work/
-bin
+# build files
+/.stack-work/
+/bin/
+/*.cabal
+
+# runtime files
+/*.sqlite

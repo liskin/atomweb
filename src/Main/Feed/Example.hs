@@ -1,10 +1,6 @@
-{-# LANGUAGE NoImplicitPrelude #-}
+{-# LANGUAGE OverloadedStrings #-}
 
 module Main.Feed.Example (exampleFeed) where
-
-import Control.Applicative (pure)
-import Data.Function (($))
-import System.IO (IO)
 
 import Main.Feed
     ( Feed

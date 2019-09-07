@@ -12,7 +12,6 @@ executable:
     ghc-options:
         - -Wall
         - -threaded
-        - -rtsopts
         - -with-rtsopts=-N
     dependencies:
         - SHA
@@ -27,7 +26,6 @@ executable:
         - persistent
         - persistent-sqlite
         - persistent-template
-        - reddit
         - tagsoup
         - text
         - time
@@ -36,4 +34,4 @@ executable:
         - wai-extra
         - warp
         - wreq
-        - xml
+        - xml-conduit
