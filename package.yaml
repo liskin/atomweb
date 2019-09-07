@@ -15,9 +15,11 @@ executable:
         - -with-rtsopts=-N
     dependencies:
         - SHA
+        - aeson
         - base
         - blaze-builder
         - bytestring
+        - containers
         - data-default
         - feed
         - http-types
