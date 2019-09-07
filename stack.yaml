@@ -1,4 +1,6 @@
 resolver: lts-12.26
 flags: {}
-packages: ['.']
+packages:
+    - '.'
+    - 'dep/feed'
 extra-deps: []

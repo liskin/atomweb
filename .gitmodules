@@ -1,0 +1,3 @@
+[submodule "dep/feed"]
+	path = dep/feed
+	url = https://github.com/liskin/feed.git
