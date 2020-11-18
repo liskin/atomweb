@@ -1,6 +1,5 @@
-resolver: lts-12.26
+resolver: lts-16.18
 flags: {}
 packages:
     - '.'
-    - 'dep/feed'
 extra-deps: []
